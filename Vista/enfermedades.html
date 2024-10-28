@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Enfermedades</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Incluir el header -->
+    {% include 'header.html' %}
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Lista de Enfermedades</h1>
+            <a href="/agregarenfermedad" class="btn btn-primary mt-3"> Agregar enfermedad </a>
+        </div>
+
+        {% if Enfermedades %}
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre Científico</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Síntomas</th>
+                    <th scope="col">Causas</th>
+                    <th scope="col">Prevención</th>
+                    <th scope="col">Tratamiento</th>
+                    <th scope="col">Tasa Mortalidad</th>
+                    <th scope="col">Región Prevalente</th>
+                    <th scope="col">Complicaciones</th>
+                    <th scope="col">Acciones</th> <!-- Nueva columna para acciones -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for enfermedad in Enfermedades %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ enfermedad.NombreCientifico }}</td>
+                    <td>{{ enfermedad.Descripcion }}</td>
+                    <td>{{ enfermedad.Sintomas }}</td>
+                    <td>{{ enfermedad.Causas }}</td> 
+                    <td>{{ enfermedad.Prevencion }}</td>
+                    <td>{{ enfermedad.Tratamiento }}</td>
+                    <td>{{ enfermedad.TasaMortalidad }}</td>
+                    <td>{{ enfermedad.RegionPrevalente }}</td>
+                    <td>{{ enfermedad.Complicaciones }}</td>
+                    <td>
+                        <!-- Botón de editar -->
+                        <a href="/editarenfermedad/{{ enfermedad.ID }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <!-- Botón de eliminar -->
+                        <a href="/eliminarenfermedad/{{ enfermedad.ID }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta enfermedad?');">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            No se han encontrado enfermedades.
+        </div>
+        {% endif %}
+    </div>
+
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del enfermedades</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Incluir el header -->
+    {% include 'header.html' %}
+
+    <div class="container mt-4">
+        <h1>Lista de Enfermedades</h1>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">NombreCientifico</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Sintomas</th>
+                    <th scope="col">Causas</th>
+                    <th scope="col">Prevencion</th>
+                    <th scope="col">Tratamiento</th>
+                    <th scope="col">TasaMortalidad</th>
+                    <th scope="col">RegionPrevalente</th>
+                    <th scope="col">Complicaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                {% for enfermedad in Enfermedades %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ enfermedad.NombreCientifico }}</td>
+                    <td>{{ enfermedad.Descripcion }}</td>
+                    <td>{{ enfermedad.Sintomas }}</td>
+                    <td>{{ enfermedad.Causas}}</td> 
+                    <td>{{ enfermedad.Prevencion }}</td>
+                    <td>{{ enfermedad.Tratamiento }}</td>
+                    <td>{{ enfermedad.TasaMortalidad }}</td>
+                    <td>{{ enfermedad.Transmision }}</td>
+                    <td>{{ enfermedad.RegionPrevalente }}</td>
+                    <td>{{ enfermedad.Complicaciones }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'footer.html' %}</body>
+</html>

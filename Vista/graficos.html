@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos demográficos</title>
+    
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Enlace a Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+    {% include 'header.html' %}
+
+    <div class="container mt-4">
+        <h2>Datos demográficos</h2>
+
+        <!-- Barras de progreso -->
+        <div class="progress mb-3">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <div class="progress mb-3">
+            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+        </div>
+        <div class="progress mb-3">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+        </div>
+        <div class="progress mb-3">
+            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+        </div>
+        
+        <!-- Gráfico de pastel -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <canvas id="oilProductionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <!-- Script para el gráfico de pastel -->
+    <script>
+        const ctx = document.getElementById('oilProductionChart').getContext('2d');
+        const oilProductionChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Saudi Arabia', 'Russia', 'Iraq', 'United Arab Emirates', 'Canada'],
+                datasets: [{
+                    label: 'Oil Production',
+                    data: [25, 20, 15, 10, 30], // Datos en porcentaje
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',  // Arabia Saudita (Rojo)
+                        'rgba(75, 192, 192, 0.8)',  // Rusia (Verde)
+                        'rgba(144, 238, 144, 0.8)', // Irak (Verde claro)
+                        'rgba(123, 104, 238, 0.8)', // Emiratos Árabes Unidos (Púrpura)
+                        'rgba(54, 162, 235, 0.8)'   // Canadá (Azul)
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255, 1)' // Blanco para las separaciones
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Posición de la leyenda
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Enlace a Bootstrap JS Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
