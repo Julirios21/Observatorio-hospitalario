@@ -1,89 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos demográficos</title>
-    
-    <!-- Enlace a Bootstrap CSS -->
+    <title>Datos Demográficos de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Enlace a Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    
+    <!-- Incluir el header -->
     {% include 'header.html' %}
+<div class="container">
+    <h2 class="mb-4">Gráficos Demográficos de Usuarios</h2>
 
-    <div class="container mt-4">
-        <h2>Datos demográficos</h2>
+    <!-- Gráfico de barras -->
+    <canvas id="barChart" class="mb-4"></canvas>
 
-        <!-- Barras de progreso -->
-        <div class="progress mb-3">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <div class="progress mb-3">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-        </div>
-        <div class="progress mb-3">
-            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-        </div>
-        <div class="progress mb-3">
-            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-        </div>
-        
-        <!-- Gráfico de pastel -->
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <canvas id="oilProductionChart"></canvas>
-            </div>
-        </div>
-    </div>
+    <!-- Gráfico de pastel -->
+    <canvas id="pieChart"></canvas>
+</div>
 
-    {% include 'footer.html' %}
+<script>
+    // Ejemplo de datos
+    const dataEdades = [5, 10, 15, 20, 25]; // Sustituye con tus datos de edades
+    const dataGeneros = [60, 40]; // Ejemplo: 60% masculino, 40% femenino
 
-    <!-- Script para el gráfico de pastel -->
-    <script>
-        const ctx = document.getElementById('oilProductionChart').getContext('2d');
-        const oilProductionChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Saudi Arabia', 'Russia', 'Iraq', 'United Arab Emirates', 'Canada'],
-                datasets: [{
-                    label: 'Oil Production',
-                    data: [25, 20, 15, 10, 30], // Datos en porcentaje
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',  // Arabia Saudita (Rojo)
-                        'rgba(75, 192, 192, 0.8)',  // Rusia (Verde)
-                        'rgba(144, 238, 144, 0.8)', // Irak (Verde claro)
-                        'rgba(123, 104, 238, 0.8)', // Emiratos Árabes Unidos (Púrpura)
-                        'rgba(54, 162, 235, 0.8)'   // Canadá (Azul)
-                    ],
-                    borderColor: [
-                        'rgba(255, 255, 255, 1)' // Blanco para las separaciones
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top', // Posición de la leyenda
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                            }
-                        }
-                    }
+    // Gráfico de barras (Edades)
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['0-10', '11-20', '21-30', '31-40', '41-50'], // Rango de edades
+            datasets: [{
+                label: 'Número de Usuarios',
+                data: dataEdades,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    </script>
+        }
+    });
 
-    <!-- Enlace a Bootstrap JS Bundle con Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    // Gráfico de pastel (Género)
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Masculino', 'Femenino'], // Etiquetas de género
+            datasets: [{
+                data: dataGeneros,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 99, 132, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
+{% include 'footer.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

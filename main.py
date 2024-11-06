@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from Modelo.Usuario import Usuario
 from Modelo.Tipo import Tipo
 from Modelo.Enfermedad import Enfermedad
+from Modelo.Genero import Genero
 import os
 
 # Especificar la ruta a la carpeta de plantillas "Vista"
@@ -48,6 +49,9 @@ def login():
             if usuario.Tipo.id == 3:  # 3 es usuario externo
                 return redirect(url_for('info_usuario_externo', usuario_id=usuario.id))  
             
+            elif session['tipo_usuario'] == 2:
+                return redirect(url_for('info_usuario_interno', usuario_id=session['usuario_id']))
+            
             else:
                 return redirect(url_for('info_usuario', usuario_id=usuario.id)) 
             
@@ -61,6 +65,8 @@ def login():
 def registrao():
     if session['tipo_usuario'] == 3:  # Si es usuario externo
         return redirect(url_for('info_usuario_externo', usuario_id=session['usuario_id']))  # INFO_USUARIO_EXTERNO
+    elif session['tipo_usuario'] == 2:
+        return redirect(url_for('info_usuario_interno', usuario_id=session['usuario_id']))
     else:
         return redirect(url_for('info_usuario', usuario_id=session['usuario_id'])) # INFO_USUARIO
     
@@ -119,6 +125,14 @@ def info_usuario_externo(usuario_id):
     return render_template('info_usuarioexterno.html', usuario=usuario)
 
 # Usuario interno
+@app.route('/info_usuario_interno/<int:usuario_id>', methods=['GET'])
+def info_usuario_interno(usuario_id):
+    usuario = Usuario.select()
+    if usuario is None:
+        return "Usuarios no encontrado", 404  # Manejo de error si el usuario no existe
+    return render_template('info_usuariointerno.html', Usuarios=usuario)  # Renderiza la plantilla con el usuario
+
+# Usuario mod
 @app.route('/info_usuario/<int:usuario_id>', methods=['GET'])
 def info_usuario(usuario_id):
     usuario = Usuario.select()
@@ -130,6 +144,14 @@ def info_usuario(usuario_id):
 @app.route('/usuarios', methods=['GET'])
 def lista_usuarios():
     return redirect(url_for('info_usuario',  usuario_id=session['usuario_id']))
+@app.route('/lista_usuarios_internos')
+
+def lista_usuarios_internos():
+    # Aquí puedes obtener los datos necesarios para mostrar en el HTML
+    usuarios = Usuario.select()
+
+    # Renderizar el template con los datos
+    return render_template('info_usuariointerno.html', usuarios=usuarios)
 
 
 # Editar usuario
@@ -161,6 +183,32 @@ def editar_usuario(id):
 
     enfermedades = Enfermedad.select()
     return render_template('editar_usuario.html', usuario=usuario, enfermedades=enfermedades)
+
+@app.route('/agregarenfermedadusuario/<int:id>', methods=['GET', 'POST'])
+def agregarenfermedadusuario(id):
+    usuario = Usuario.get_or_none(Usuario.id == id)
+    enfermedades = Enfermedad.select()
+
+    if not usuario:
+        return "Usuario no encontrado", 404
+
+    if request.method == 'POST':
+        # Obtener el ID de la enfermedad seleccionada
+        enfermedad_id = request.form.get('enfermedad_id')
+        print("Enfermedad ID:", enfermedad_id)  # Para depuración
+
+        # Recuperar la enfermedad utilizando el ID
+        enfermedad = Enfermedad.get_or_none(Enfermedad.ID == enfermedad_id)
+        
+        if enfermedad:
+            # Asignar la enfermedad al usuario y guardar
+            usuario.Enfermedad = enfermedad
+            usuario.save()
+            return redirect(url_for('info_usuario_interno', usuario_id=usuario.id))
+
+
+    return render_template('agregarenfermedadusuario.html', usuario=usuario, enfermedades=enfermedades)
+
 
 
 # Eliminar usuario
@@ -298,7 +346,7 @@ def graficos():
     usuario = Usuario.select()
     if usuario is None:
         return "Usuarios no encontrado", 404
-    return render_template('/graficos.html', Usuarios = usuario)
+    return render_template('/graficos.html', usuarios = usuario)
 
 
 

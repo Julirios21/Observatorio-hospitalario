@@ -37,7 +37,13 @@
                     <td>{{ usuario.Nombres }}</td>
                     <td>{{ usuario.Apellidos }}</td>
                     <td>{{ usuario.Edad }}</td>
-                    <td>{{ usuario.Genero }}</td>
+                    <td>
+                        {% if usuario.Genero == 1 %}
+                            Hombre
+                        {% else %}
+                            Mujer
+                        {% endif %}
+                    </td>
                     <td>{{ usuario.Correo }}</td>
                     <td>{{ usuario.Tipo }}</td>
                     <td>{{ usuario.Municipio }}</td>
