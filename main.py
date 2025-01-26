@@ -122,7 +122,8 @@ def sign_up():
 @app.route('/info_usuario_externo/<int:usuario_id>', methods=['GET'])
 def info_usuario_externo(usuario_id):
     usuario = Usuario.get_or_none(Usuario.id == usuario_id)
-    return render_template('info_usuarioexterno.html', usuario=usuario)
+    enfermedades = Enfermedad.select()
+    return render_template('info_usuarioexterno.html', usuario=usuario, enfermedades=enfermedades   )
 
 # Usuario interno
 @app.route('/info_usuario_interno/<int:usuario_id>', methods=['GET'])
@@ -175,7 +176,8 @@ def editar_usuario(id):
 
         # Asignar la enfermedad seleccionada
         enfermedad_id = request.form['enfermedad']
-        usuario.Enfermedad = Enfermedad.get(Enfermedad.ID == enfermedad_id)
+        Enfermedad = Enfermedad.get(Enfermedad.ID == enfermedad_id)
+        print(Enfermedad)
 
         usuario.save()
 

@@ -25,9 +25,14 @@
                 <p class="card-text"><strong>Género:</strong> {{ usuario.Genero.Nombre }}</p>
                 <p class="card-text"><strong>Correo:</strong> {{ usuario.Correo }}</p>
                 <p class="card-text"><strong>Municipio:</strong> {{ usuario.Municipio }}</p>
-                <p class="card-text"><strong>Departamento:</strong> {{ usuario.Departamento }}</p>
+                <p class="card-text"><strong>Departamento   :</strong> {{ usuario.Departamento }}</p>
+        
+                {% for enfermedad in usuario.enfermedades %}
+                <p class="card-text"><strong>Enfermedad:</strong> {{ enfermedad.nombre_cientifico }}</p>
+                {% endfor %}
             </div>
-        </div>
+        </div>        
+        
         
     </div>
     {% include 'footer.html' %}

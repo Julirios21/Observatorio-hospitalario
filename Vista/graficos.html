@@ -18,71 +18,75 @@
 <body>
     <!-- Incluir el header -->
     {% include 'header.html' %}
-<div class="container">
-    <h2 class="mb-4">Gráficos Demográficos de Usuarios</h2>
+    <div class="container">
+        <h2 class="mb-4">Gráficos Demográficos de Usuarios</h2>
+        <div class="row">
+            <!-- Columna para el gráfico de barras -->
+            <div class="col-md-6">
+                <canvas id="barChart"></canvas>
+            </div>
+            <!-- Columna para el gráfico de pastel -->
+            <div class="col-md-6">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
 
-    <!-- Gráfico de barras -->
-    <canvas id="barChart" class="mb-4"></canvas>
+    <script>
+        // Ejemplo de datos
+        const dataEdades = [5, 10, 15, 20, 25]; // Sustituye con tus datos de edades
+        const dataGeneros = [60, 40]; // Ejemplo: 60% masculino, 40% femenino
 
-    <!-- Gráfico de pastel -->
-    <canvas id="pieChart"></canvas>
-</div>
-
-<script>
-    // Ejemplo de datos
-    const dataEdades = [5, 10, 15, 20, 25]; // Sustituye con tus datos de edades
-    const dataGeneros = [60, 40]; // Ejemplo: 60% masculino, 40% femenino
-
-    // Gráfico de barras (Edades)
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    new Chart(barCtx, {
-        type: 'bar',
-        data: {
-            labels: ['0-10', '11-20', '21-30', '31-40', '41-50'], // Rango de edades
-            datasets: [{
-                label: 'Número de Usuarios',
-                data: dataEdades,
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Gráfico de barras (Edades)
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['0-10', '11-20', '21-30', '31-40', '41-50'], // Rango de edades
+                datasets: [{
+                    label: 'Número de Usuarios',
+                    data: dataEdades,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
 
-    // Gráfico de pastel (Género)
-    const pieCtx = document.getElementById('pieChart').getContext('2d');
-    new Chart(pieCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Masculino', 'Femenino'], // Etiquetas de género
-            datasets: [{
-                data: dataGeneros,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(255, 99, 132, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-</script>
+        // Gráfico de pastel (Género)
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Masculino', 'Femenino'], // Etiquetas de género
+                datasets: [{
+                    data: dataGeneros,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(255, 99, 132, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
 
-{% include 'footer.html' %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% include 'footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

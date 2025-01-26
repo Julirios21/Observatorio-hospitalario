@@ -23,6 +23,6 @@ class Usuario(Model):
     # ForeignKeyField para Genero usando el nombre de columna 'Genero'
     Genero = ForeignKeyField(Genero, db_column='Genero', backref='usuarios', on_delete='CASCADE')
 
-    Enfermedad = ForeignKeyField(Enfermedad, backref='usuarios', null=True, on_delete='SET NULL')
+    Enfermedad = ManyToManyField(Enfermedad, backref='usuarios')
     class Meta:
         database = db
